@@ -1,9 +1,9 @@
-import Form from './components/Form';
+import FormComponent from './components/Form';
 
 function App() {
 
   return (
-    <Form />
+    <FormComponent />
   )
 }
 

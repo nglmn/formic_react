@@ -1,4 +1,4 @@
-import { useFormik } from 'formik';
+import { Formik, Form, Field, ErrorMessage, useField } from 'formik';
 import * as Yup from 'yup';
 
 import './Form.css';
@@ -24,125 +24,121 @@ import './Form.css';
 //     return errors;
 // }
 
-
-const Form = () => {
-
-    const formik = useFormik({
-        initialValues: {
-            name: '',
-            mail: '',
-            count: 0,
-            currency: '',
-            message: '',
-            terms: false
-        },
-        validationSchema: Yup.object({
-            name: Yup.string()
-                .min(2, 'Need more 2 symbols')
-                .required('Required field !'),
-            mail: Yup.string()
-                .email('Wrong email')
-                .required('Required field !'),
-            count: Yup.number()
-                .min(1, 'Minimum 1')
-                .required('Required field'),
-            currency: Yup.string().required('Need to choose currency'),
-            message: Yup.string()
-                .min(10, 'Minimum 10 symbols'),
-            terms: Yup.boolean()
-                .required('Need agree with terms')
-                .oneOf([true], 'Need agree with terms')
-        }),
-        onSubmit: values => console.log(JSON.stringify(values, null, 2))
-
-    });
-
+const MyTextInput = ({ label, ...props }) => {
+    const [field, meta] = useField(props);
     return (
-        <div className="form" onSubmit={formik.handleSubmit}>
-            <h2>Send form</h2>
-            <div className="form_input">
-                <label htmlFor="name">Name: </label>
-                {formik.errors.name && formik.touched.name ? <label className='errorMessage'>{formik.errors.name}</label> : null}
-                <input
+
+        <div className="form_input">
+            <label htmlFor={props.name}>{label}</label>
+
+            {meta.touched && meta.error ? (
+                <label className='errorMessage'>{meta.error}</label>
+            ) : null}
+            <input {...props} {...field} />
+        </div>
+    )
+};
+const MyCheckbox = ({ children, ...props }) => {
+    const [field, meta] = useField({ ...props, type: 'checkbox' });
+    return (
+
+        <div className="form_checkbox">
+            <label htmlFor='checkbox' className='checkbox'>
+                <input type='checkbox'{...props} {...field} />
+                {children}
+            </label>
+
+            {meta.touched && meta.error ? (
+                <label className='errorMessage'>{meta.error}</label>
+            ) : null}
+        </div>
+    )
+};
+
+
+const FormComponent = () => {
+    return (
+        <Formik
+            initialValues={{
+                name: '',
+                mail: '',
+                count: 0,
+                currency: '',
+                message: '',
+                terms: false
+            }}
+            validationSchema={Yup.object({
+                name: Yup.string()
+                    .min(2, 'Need more 2 symbols')
+                    .required('Required field !'),
+                mail: Yup.string()
+                    .email('Wrong email')
+                    .required('Required field !'),
+                count: Yup.number()
+                    .min(1, 'Minimum 1')
+                    .required('Required field'),
+                currency: Yup.string().required('Need to choose currency'),
+                message: Yup.string()
+                    .min(10, 'Minimum 10 symbols'),
+                terms: Yup.boolean()
+                    .required('Need agree with terms')
+                    .oneOf([true], 'Need agree with terms')
+            })}
+            onSubmit={values => console.log(JSON.stringify(values, null, 2))}>
+
+            <Form className="form">
+                <h2>Send form</h2>
+                <MyTextInput
+                    label='Name: '
                     id='name'
                     name='name'
                     type="text"
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
                 />
-
-            </div>
-            <div className="form_input">
-                <label htmlFor="mail">Mail: </label>
-                {formik.errors.mail && formik.touched.mail ? <label className='errorMessage'>{formik.errors.mail}</label> : null}
-                <input
+                <MyTextInput
+                    label="Mail: "
                     id='mail'
                     name='mail'
                     type="text"
-                    value={formik.values.mail}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
                 />
-            </div>
-            <div className="form_input">
-                <label htmlFor="mail">Count: </label>
-                {formik.errors.mail && formik.touched.count ? <label className='errorMessage'>{formik.errors.count}</label> : null}
-                <input
+                <MyTextInput
+                    label="Count: "
                     id='count'
                     name='count'
                     type="text"
-                    value={formik.values.count}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
                 />
-            </div>
-            <div className="form_input">
-                <label htmlFor="curency">Currency: </label>
-                {formik.errors.mail && formik.touched.currency ? <label className='errorMessage'>{formik.errors.currency}</label> : null}
-                <select
-                    name="currency"
-                    id="currency"
-                    value={formik.values.curency}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                >
-                    <option value=''>Choose currency</option>
-                    <option value='UAH'>UAH</option>
-                    <option value='USD'>USD</option>
-                    <option value='EUR'>EUR</option>
-                    <option value='GBR'>GBR</option>
-                </select>
-            </div>
-            <div className="form_input">
-                <label htmlFor="message">Your message: </label>
-                {formik.errors.mail && formik.touched.message ? <label className='errorMessage'>{formik.errors.message}</label> : null}
-                <textarea
-                    name="message"
-                    id="message"
-                    value={formik.values.message}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}>
-                </textarea>
-            </div>
-            <div className="form_checkbox">
-                <label
-                    className='checkbox'
-                    htmlFor="checkbox">
-                    <input
-                        id='terms'
-                        name="terms"
-                        type="checkbox"
-                        value={formik.values.terms}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                    /> Are you agree to the privacy policy ?
-                </label>
-                {formik.errors.terms && formik.touched.terms ? <label className='errorMessage'>{formik.errors.terms}</label> : null}
-            </div>
-            <button type='submit'>Send</button>
-        </div>
+                <div className="form_input">
+                    <label htmlFor="curency">Currency: </label>
+                    <ErrorMessage className='errorMessage' name='currency' component='label' />
+                    <Field
+                        name="currency"
+                        id="currency"
+                        as="select">
+
+                        <option value=''>Choose currency</option>
+                        <option value='UAH'>UAH</option>
+                        <option value='USD'>USD</option>
+                        <option value='EUR'>EUR</option>
+                        <option value='GBR'>GBR</option>
+                    </Field>
+                </div>
+                <div className="form_input">
+                    <label htmlFor="message">Your message: </label>
+                    <ErrorMessage className='errorMessage' name='message' component='label' />
+                    <Field
+                        name="message"
+                        id="message"
+                        as="textarea">
+                    </Field>
+                </div>
+                <MyCheckbox
+                    id='terms'
+                    name="terms">
+                    Are you agree to the privacy policy ?
+                </MyCheckbox>
+                <button type='submit'>Send</button>
+            </Form>
+        </Formik >
     )
 }
 
-export default Form;
+export default FormComponent;
