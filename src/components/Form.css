@@ -25,9 +25,8 @@ h2 {
 }
 
 .errorMessage {
-    display: block;
-    position: fixed;
-    color: rgb(27, 27, 27);
+    margin-left: 5px;
+    color: rgb(89, 0, 255);
     transform: translateX(190px);
     font-weight: 100;
 }
