@@ -1,0 +1,23 @@
+#root {
+    margin: auto;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+
+}
+
+.form_component {
+    display: flex;
+    position: relative;
+}
+
+.morph_component {
+    display: flex;
+    position: absolute;
+    top: 0px;
+    z-index: -100;
+    transform: translateX(300px);
+}

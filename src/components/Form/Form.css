@@ -1,4 +1,4 @@
-@import '../fonts/fonts.css';
+@import '../../fonts/fonts.css';
 
 * {
     box-sizing: border-box;
@@ -7,11 +7,13 @@
 
 .form {
     display: block;
+    position: relative;
     margin: 50px auto;
     padding: 30px;
     width: 550px;
     height: 750px;
-    background-color: #efefef;
+    background-color: rgb(239, 239, 239, 70%);
+    backdrop-filter: blur(10px);
     border-radius: 12px;
     box-shadow: 2px 5px 25px rgba(1, 1, 1, 0.2);
 }
@@ -21,7 +23,8 @@ h2 {
     color: #efefef;
     font-weight: 600;
     font-size: 30px;
-    text-shadow: 1px 1px 1px rgba(98, 0, 255, 0.5), -1px -1px 1px rgba(255, 255, 255, 1);
+    text-shadow: 1px 1px 1px rgba(98, 0, 255, 0.2), -1px -1px 1px rgba(255, 255, 255, 1);
+
 }
 
 .errorMessage {
@@ -46,7 +49,6 @@ input {
     margin-top: 15px;
     width: 100%;
     height: 35px;
-
 }
 
 input[type=text] {
@@ -55,7 +57,7 @@ input[type=text] {
     padding: 10px;
     font-weight: 200;
     border: none;
-    background-color: #efefef;
+    background: transparent;
     border-bottom: solid 1px rgb(21, 0, 55);
 }
 
@@ -90,9 +92,10 @@ textarea {
     border: none;
     font-weight: 100;
     font-size: 20px;
-    background-color: #efefef;
+    background: transparent;
     border-bottom: solid 1px rgb(21, 0, 55);
     outline: none !important;
+
 
 }
 
@@ -111,12 +114,12 @@ textarea:focus {
 
 .form_checkbox input {
     cursor: pointer;
-    background-color: #6925f0;
     padding-left: 100px;
     margin-right: 10px;
     transform: translateY(11px);
     width: 25px;
     text-align: center;
+    background: transparent;
 }
 
 .form_checkbox input:checked~.checkmark {
