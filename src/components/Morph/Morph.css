@@ -1,3 +1,7 @@
+canvas{
+    position: relative;
+    aspect-ratio: auto;
+}
 #root {
     height: 100%;
 }
